@@ -5,8 +5,6 @@ import my.java.vlong.homework2.domain.exception.EmployeeException;
 import my.java.vlong.homework2.domain.repository.IEmployeeRepository;
 
 import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class EmployeeService {
     private IEmployeeRepository iEmployeeRepository;

@@ -6,7 +6,6 @@ import my.java.vlong.homework2.domain.repository.IEmployeeRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class EmployeeRepositoryImpl implements IEmployeeRepository {
     private List<Employee> employeeList;
