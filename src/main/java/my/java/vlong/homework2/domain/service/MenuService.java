@@ -1,6 +1,5 @@
 package my.java.vlong.homework2.domain.service;
 
-import my.java.vlong.homework2.domain.entity.EmployeeMenuItem;
 import my.java.vlong.homework2.domain.entity.MenuItem;
 import my.java.vlong.homework2.domain.exception.EmployeeException;
 import my.java.vlong.homework2.domain.repository.IMenuRepository;
@@ -37,7 +36,7 @@ public class MenuService {
                         displayEmployees();
                         break;
                     case FIND_EMPLOYEE_BY_SALARY:
-                        System.out.println("3");
+                        findEmployeeByMaxSalary();
                         break;
                     case EXIT:
                         this.exit();
@@ -61,19 +60,19 @@ public class MenuService {
         try {
             iMenuRepository.displayAddEmployeeMenu();
             int choice = 0;
-            EmployeeMenuItem employeeMenuItemChoice;
+            MenuItem.EmployeeMenuItem employeeMenuItemChoice;
 
             do {
                 choice = scanner.nextInt();
-                employeeMenuItemChoice = EmployeeMenuItem.valueOf(choice);
+                employeeMenuItemChoice = MenuItem.EmployeeMenuItem.valueOf(choice);
 
-                if (employeeMenuItemChoice.equals(EmployeeMenuItem.RETURN_MAIN)) {
+                if (employeeMenuItemChoice.equals(MenuItem.EmployeeMenuItem.RETURN_MAIN)) {
                     this.executeMenu();
                     return;
                 }
                 employeeService.addEmployee(employeeMenuItemChoice);
 
-            } while (!EmployeeMenuItem.valueIsValid(employeeMenuItemChoice));
+            } while (!MenuItem.EmployeeMenuItem.valueIsValid(employeeMenuItemChoice));
         } catch (InputMismatchException e) {
             scanner.reset();
             scanner.next();
@@ -85,6 +84,29 @@ public class MenuService {
             employeeService.displayEmployees();
         } catch (EmployeeException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void findEmployeeByMaxSalary() {
+        try {
+            iMenuRepository.displayMenuFindEmployeeByCondition();
+            int choice = 0;
+            MenuItem.EmployeeFindConditionMenuItem employeeFindConditionMenuItem;
+
+            do {
+                choice = scanner.nextInt();
+                employeeFindConditionMenuItem = MenuItem.EmployeeFindConditionMenuItem.valueOf(choice);
+
+                if (employeeFindConditionMenuItem.equals(MenuItem.EmployeeFindConditionMenuItem.RETURN_MAIN)) {
+                    this.executeMenu();
+                    return;
+                }
+
+                employeeService.findEmployeeHaveMaxSalaryBy(employeeFindConditionMenuItem);
+            } while (!MenuItem.EmployeeFindConditionMenuItem.valueIsValid(employeeFindConditionMenuItem));
+        } catch (InputMismatchException e) {
+            scanner.reset();
+            scanner.next();
         }
     }
 

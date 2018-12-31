@@ -4,10 +4,10 @@ import my.java.vlong.homework2.domain.entity.*;
 import my.java.vlong.homework2.domain.exception.EmployeeException;
 import my.java.vlong.homework2.domain.repository.IEmployeeRepository;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Consumer;
 
 public class EmployeeService {
     private IEmployeeRepository iEmployeeRepository;
@@ -18,7 +18,7 @@ public class EmployeeService {
         this.scanner = new Scanner(System.in);
     }
 
-    public void addEmployee(EmployeeMenuItem employeeMenuItem) {
+    public void addEmployee(MenuItem.EmployeeMenuItem employeeMenuItem) {
         switch (employeeMenuItem) {
             case WORKER:
                 this.addWorker();
@@ -39,18 +39,19 @@ public class EmployeeService {
         }
 
         employeeList.forEach((Employee employee) -> {
-            if (employee != null) {
-                System.out.println("========================");
-                if (employee instanceof Worker) {
-                    ((Worker) employee).displayInfo();
-                } else if (employee instanceof Officer) {
-                    ((Officer) employee).displayInfo();
-                } else if (employee instanceof Manager) {
-                    ((Manager) employee).displayInfo();
-                }
-                System.out.println("========================");
-            }
+            displayEmployee(employee);
         });
+    }
+
+    public void findEmployeeHaveMaxSalaryBy(MenuItem.EmployeeFindConditionMenuItem employeeFindConditionMenuItem) {
+        switch (employeeFindConditionMenuItem) {
+            case FIND_BY_GENDER:
+                this.findEmployeeHaveMaxSalaryByGender();
+                break;
+            case FIND_BY_POSITION:
+                this.findEmployeeHaveMaxSalaryByPosition();
+                break;
+        }
     }
 
     private void addWorker() {
@@ -161,6 +162,90 @@ public class EmployeeService {
             addManager();
         } catch (EmployeeException e) {
             System.out.println("Can not add employee");
+        }
+    }
+
+    private void displayEmployee(Employee employee) {
+        if (employee != null) {
+            System.out.println("========================");
+            if (employee instanceof Worker) {
+                ((Worker) employee).displayInfo();
+            } else if (employee instanceof Officer) {
+                ((Officer) employee).displayInfo();
+            } else if (employee instanceof Manager) {
+                ((Manager) employee).displayInfo();
+            }
+            System.out.println("========================");
+        }
+    }
+
+    private void findEmployeeHaveMaxSalaryByGender() {
+        List<Employee> employeeList = this.iEmployeeRepository.getEmployees();
+        if (employeeList == null || employeeList.size() == 0) {
+            return;
+        }
+
+        List<Employee> results = new ArrayList<>();
+        for (Gender gender : Gender.values()) {
+            Employee employeeMax = null;
+            for (Employee employee : employeeList) {
+                if (employee == null) {
+                    continue;
+                }
+
+                if (employee.getGender().equals(gender)) {
+
+                    if (employeeMax == null) {
+                        employeeMax = employee;
+                    } else {
+                        if (employeeMax.calculateSalary() < employee.calculateSalary()) {
+                            employeeMax = employee;
+                        }
+                    }
+                }
+            }
+            results.add(employeeMax);
+        }
+
+        if (results.size() > 0) {
+            results.forEach((Employee employee) -> {
+                displayEmployee(employee);
+            });
+        }
+    }
+
+    private void findEmployeeHaveMaxSalaryByPosition() {
+        List<Employee> employeeList = this.iEmployeeRepository.getEmployees();
+        if (employeeList == null || employeeList.size() == 0) {
+            return;
+        }
+
+        List<Employee> results = new ArrayList<>();
+        for (Position position : Position.values()) {
+            Employee employeeMax = null;
+            for (Employee employee : employeeList) {
+                if (employee == null) {
+                    continue;
+                }
+
+                if (employee.getPosition().equals(position)) {
+
+                    if (employeeMax == null) {
+                        employeeMax = employee;
+                    } else {
+                        if (employeeMax.calculateSalary() < employee.calculateSalary()) {
+                            employeeMax = employee;
+                        }
+                    }
+                }
+            }
+            results.add(employeeMax);
+        }
+
+        if (results.size() > 0) {
+            results.forEach((Employee employee) -> {
+                displayEmployee(employee);
+            });
         }
     }
 }

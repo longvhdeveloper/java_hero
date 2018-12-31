@@ -7,6 +7,7 @@ public abstract class Employee implements IEmployee {
     private String fullName;
     private Gender gender;
     private float salary;
+    private Position position;
 
     public Employee(String fullName, Gender gender, float salary) {
         this.id = ++AUTO_INCREMENT;
@@ -30,6 +31,14 @@ public abstract class Employee implements IEmployee {
 
     public float getSalary() {
         return salary;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     @Override

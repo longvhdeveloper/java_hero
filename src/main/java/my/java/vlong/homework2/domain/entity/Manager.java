@@ -8,6 +8,7 @@ public class Manager extends Employee {
     public Manager(String fullName, Gender gender, float salary, int numberOfEmployee) {
         super(fullName, gender, salary);
         this.numberOfEmployee = numberOfEmployee;
+        this.setPosition(Position.MANAGER);
     }
 
     public int getNumberOfEmployee() {
@@ -41,6 +42,7 @@ public class Manager extends Employee {
     @Override
     public void displayInfo() {
         super.displayInfo();
+        System.out.printf("Position: " + Position.getValue(this.getPosition()));
         System.out.println(String.format("Number of employees: %d", numberOfEmployee));
         System.out.println(String.format("Total salary: %.2f", calculateSalary()));
     }

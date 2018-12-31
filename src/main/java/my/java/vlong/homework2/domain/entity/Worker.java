@@ -8,6 +8,7 @@ public class Worker extends Employee {
     public Worker(String fullName, Gender gender, float salary, int workOfDays) {
         super(fullName, gender, salary);
         this.workOfDays = workOfDays;
+        this.setPosition(Position.WORKER);
     }
 
     public int getWorkOfDays() {
@@ -35,6 +36,7 @@ public class Worker extends Employee {
     @Override
     public void displayInfo() {
         super.displayInfo();
+        System.out.printf("Position: " + Position.getValue(this.getPosition()));
         System.out.println(String.format("Day of works: %d", workOfDays));
         System.out.println(String.format("Total salary: %.2f", calculateSalary()));
     }
