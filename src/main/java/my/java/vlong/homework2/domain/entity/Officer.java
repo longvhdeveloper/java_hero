@@ -35,7 +35,7 @@ public class Officer extends Employee {
     @Override
     public void displayInfo() {
         super.displayInfo();
-        System.out.printf("Position: " + Position.getValue(this.getPosition()));
+        System.out.println(String.format("Position: %s", Position.getValue(this.getPosition())));
         System.out.println(String.format("Weight: %.2f", weight));
         System.out.println(String.format("Total salary: %.2f", calculateSalary()));
     }

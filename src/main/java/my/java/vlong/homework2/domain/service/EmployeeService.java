@@ -4,10 +4,9 @@ import my.java.vlong.homework2.domain.entity.*;
 import my.java.vlong.homework2.domain.exception.EmployeeException;
 import my.java.vlong.homework2.domain.repository.IEmployeeRepository;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class EmployeeService {
     private IEmployeeRepository iEmployeeRepository;
@@ -186,31 +185,36 @@ public class EmployeeService {
         }
 
         List<Employee> results = new ArrayList<>();
-        for (Gender gender : Gender.values()) {
-            Employee employeeMax = null;
-            for (Employee employee : employeeList) {
-                if (employee == null) {
-                    continue;
-                }
 
-                if (employee.getGender().equals(gender)) {
+        Arrays.asList(Gender.values()).forEach((Gender gender) -> {
+            Optional<Employee> optional =
+                    employeeList.stream().filter(employee -> employee != null && employee.getGender().equals(gender)).max(Comparator.comparing(Employee::calculateSalary));
+            optional.ifPresent(results::add);
+        });
 
-                    if (employeeMax == null) {
-                        employeeMax = employee;
-                    } else {
-                        if (employeeMax.calculateSalary() < employee.calculateSalary()) {
-                            employeeMax = employee;
-                        }
-                    }
-                }
-            }
-            results.add(employeeMax);
-        }
+        //        for (Gender gender : Gender.values()) {
+        //            Employee employeeMax = null;
+        //            for (Employee employee : employeeList) {
+        //                if (employee == null) {
+        //                    continue;
+        //                }
+        //
+        //                if (employee.getGender().equals(gender)) {
+        //
+        //                    if (employeeMax == null) {
+        //                        employeeMax = employee;
+        //                    } else {
+        //                        if (employeeMax.calculateSalary() < employee.calculateSalary()) {
+        //                            employeeMax = employee;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            results.add(employeeMax);
+        //        }
 
         if (results.size() > 0) {
-            results.forEach((Employee employee) -> {
-                displayEmployee(employee);
-            });
+            results.forEach(this::displayEmployee);
         }
     }
 
@@ -221,31 +225,36 @@ public class EmployeeService {
         }
 
         List<Employee> results = new ArrayList<>();
-        for (Position position : Position.values()) {
-            Employee employeeMax = null;
-            for (Employee employee : employeeList) {
-                if (employee == null) {
-                    continue;
-                }
 
-                if (employee.getPosition().equals(position)) {
+        Arrays.asList(Position.values()).forEach((Position position) -> {
+            Optional<Employee> optional =
+                    employeeList.stream().filter(employee -> employee != null && employee.getPosition().equals(position)).max(Comparator.comparing(Employee::calculateSalary));
+            optional.ifPresent(results::add);
+        });
 
-                    if (employeeMax == null) {
-                        employeeMax = employee;
-                    } else {
-                        if (employeeMax.calculateSalary() < employee.calculateSalary()) {
-                            employeeMax = employee;
-                        }
-                    }
-                }
-            }
-            results.add(employeeMax);
-        }
+        //        for (Position position : Position.values()) {
+        //            Employee employeeMax = null;
+        //            for (Employee employee : employeeList) {
+        //                if (employee == null) {
+        //                    continue;
+        //                }
+        //
+        //                if (employee.getPosition().equals(position)) {
+        //
+        //                    if (employeeMax == null) {
+        //                        employeeMax = employee;
+        //                    } else {
+        //                        if (employeeMax.calculateSalary() < employee.calculateSalary()) {
+        //                            employeeMax = employee;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            results.add(employeeMax);
+        //        }
 
         if (results.size() > 0) {
-            results.forEach((Employee employee) -> {
-                displayEmployee(employee);
-            });
+            results.forEach(this::displayEmployee);
         }
     }
 }
