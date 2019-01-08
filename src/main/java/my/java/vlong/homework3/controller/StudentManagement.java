@@ -16,11 +16,6 @@ import java.util.List;
 public class StudentManagement implements IStudent {
 
     private PreparedStatement preparedStatement;
-    private CourseManagement courseManagement;
-
-    public StudentManagement() {
-        this.courseManagement = new CourseManagement();
-    }
 
     @Override
     public boolean addStudent(Student student) {
