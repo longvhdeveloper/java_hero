@@ -2,22 +2,22 @@ package my.java.vlong.homework3.controller;
 
 import java.util.Scanner;
 
-public class Controller {
+public class MainController {
 
     private CourseController courseController;
     private StudentController studentController;
     private Scanner scanner;
 
 
-    public Controller() {
+    public MainController() {
         courseController = new CourseController();
         studentController = new StudentController();
         scanner = new Scanner(System.in);
     }
 
     public static void main(String[] args) {
-        Controller controller = new Controller();
-        controller.execute();
+        MainController mainController = new MainController();
+        mainController.execute();
     }
 
     private void execute() {
