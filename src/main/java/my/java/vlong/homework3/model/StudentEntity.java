@@ -2,29 +2,29 @@ package my.java.vlong.homework3.model;
 
 import java.util.Date;
 
-public class Student {
+public class StudentEntity {
     private int id;
     private String fullName;
     private Date dateOfBirth;
     private Gender gender;
-    private Course course;
+    private CourseEntity courseEntity;
 
-    public Student() {
+    public StudentEntity() {
     }
 
-    public Student(int id, String fullName, Date dateOfBirth, Gender gender, Course course) {
+    public StudentEntity(int id, String fullName, Date dateOfBirth, Gender gender, CourseEntity courseEntity) {
         this.id = id;
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.course = course;
+        this.courseEntity = courseEntity;
     }
 
-    public Student(String fullName, Date dateOfBirth, Gender gender, Course course) {
+    public StudentEntity(String fullName, Date dateOfBirth, Gender gender, CourseEntity courseEntity) {
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
-        this.course = course;
+        this.courseEntity = courseEntity;
     }
 
     public int getId() {
@@ -43,8 +43,8 @@ public class Student {
         return gender;
     }
 
-    public Course getCourse() {
-        return course;
+    public CourseEntity getCourseEntity() {
+        return courseEntity;
     }
 
     public void setFullName(String fullName) {
@@ -59,8 +59,8 @@ public class Student {
         this.gender = gender;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCourseEntity(CourseEntity courseEntity) {
+        this.courseEntity = courseEntity;
     }
 
     public boolean isValid() {
@@ -76,7 +76,7 @@ public class Student {
             return false;
         }
 
-        if (course == null) {
+        if (courseEntity == null) {
             return false;
         }
 
@@ -85,7 +85,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return String.format("Student: {id: %d, full name: %s, date of birth: %s, gender: %s, course: %s}", id,
-                fullName, dateOfBirth.toString(), Gender.getValue(gender), course.getName());
+        return String.format("StudentEntity: {id: %d, full name: %s, date of birth: %s, gender: %s, courseEntity: %s}", id,
+                fullName, dateOfBirth.toString(), Gender.getValue(gender), courseEntity.getName());
     }
 }

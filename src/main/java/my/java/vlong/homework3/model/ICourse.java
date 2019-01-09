@@ -3,15 +3,15 @@ package my.java.vlong.homework3.model;
 import java.util.List;
 
 public interface ICourse {
-    boolean addCourse(Course course);
+    boolean addCourse(CourseEntity courseEntity);
 
-    boolean updateCourse(Course course);
+    boolean updateCourse(CourseEntity courseEntity);
 
-    boolean deleteCourse(Course course);
+    boolean deleteCourse(CourseEntity courseEntity);
 
-    Course getCourse(int id);
+    CourseEntity getCourse(int id);
 
-    List<Course> getCourses();
+    List<CourseEntity> getCourses();
 
-    List<Course> search(String keyword);
+    List<CourseEntity> search(String keyword);
 }

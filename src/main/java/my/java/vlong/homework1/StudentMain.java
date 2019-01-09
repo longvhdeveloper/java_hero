@@ -6,7 +6,7 @@ public class StudentMain {
             Student student1 = Student.createStudent();
             Student student2 = Student.createStudent();
             Student student3 = Student.createStudent();
-            //            Student student4 = Student.createStudent();
+            //            StudentEntity student4 = StudentEntity.createStudent();
 
             // we will disable student1 and add student4
             student1.setActive(false);

@@ -41,12 +41,12 @@ public class Student {
             }
 
             this.active = true;
-            System.out.println("Student with id " + id + " is active");
+            System.out.println("StudentEntity with id " + id + " is active");
         } else {
             // case set active from true -> false
             this.active = false;
             COUNTER--;
-            System.out.println("Student with id " + id + " is disable");
+            System.out.println("StudentEntity with id " + id + " is disable");
         }
     }
 }

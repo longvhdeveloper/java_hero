@@ -3,17 +3,17 @@ package my.java.vlong.homework3.model;
 import java.util.List;
 
 public interface IStudent {
-    boolean addStudent(Student student);
+    boolean addStudent(StudentEntity studentEntity);
 
-    boolean updateStudent(Student student);
+    boolean updateStudent(StudentEntity studentEntity);
 
-    Student getStudent(int id);
+    boolean deleteStudent(StudentEntity studentEntity);
 
-    List<Student> search(String keyword);
+    StudentEntity getStudent(int id);
 
-    List<Student> getStudents();
+    List<StudentEntity> search(String keyword);
 
-    List<Student> getStudentByCourse(Course course);
+    List<StudentEntity> getStudents();
 
-    boolean deleteStudent(Student student);
+    List<StudentEntity> getStudentByCourse(CourseEntity courseEntity);
 }
