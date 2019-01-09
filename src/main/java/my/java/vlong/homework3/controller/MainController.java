@@ -6,12 +6,14 @@ public class MainController {
 
     private CourseController courseController;
     private StudentController studentController;
+    private MenuManagement menuManagement;
     private Scanner scanner;
 
 
     public MainController() {
         courseController = new CourseController();
         studentController = new StudentController();
+        menuManagement = new MenuManagement();
         scanner = new Scanner(System.in);
     }
 
@@ -24,7 +26,7 @@ public class MainController {
         int choice = 0;
         Menu menu = null;
         while (true) {
-            displayMenu();
+            menuManagement.displayMenu();
             choice = scanner.nextInt();
             scanner.nextLine();
             menu = Menu.valueOf(choice);
@@ -52,7 +54,7 @@ public class MainController {
         int choice = 0;
         Menu.MenuCourse menuCourse = null;
         while (true) {
-            displayCourseMenu();
+            menuManagement.displayCourseMenu();
             choice = scanner.nextInt();
             scanner.nextLine();
             menuCourse = Menu.MenuCourse.valueOf(choice);
@@ -95,7 +97,7 @@ public class MainController {
         int choice = 0;
         Menu.MenuStudent menuStudent = null;
         while (true) {
-            displayCourseMenu();
+            menuManagement.displayCourseMenu();
             choice = scanner.nextInt();
             scanner.nextLine();
             menuStudent = Menu.MenuStudent.valueOf(choice);
@@ -132,36 +134,6 @@ public class MainController {
         }
     }
 
-    private void displayMenu() {
-        System.out.println("===== Management =====");
-        System.out.println("1. StudentEntity");
-        System.out.println("2. CourseEntity");
-        System.out.println("3. Exit");
-        System.out.println("Enter your choice: ");
-    }
-
-    private void displayCourseMenu() {
-        System.out.println("===== CourseEntity =====");
-        System.out.println("1. Add CourseEntity");
-        System.out.println("2. Update CourseEntity");
-        System.out.println("3. Delete CourseEntity");
-        System.out.println("4. Search CourseEntity");
-        System.out.println("5. View all CourseEntity");
-        System.out.println("6. View StudentEntity in CourseEntity");
-        System.out.println("7. Return main menu");
-        System.out.println("Enter your choice: ");
-    }
-
-    private void displayStudentMenu() {
-        System.out.println("===== StudentEntity =====");
-        System.out.println("1. Add StudentEntity");
-        System.out.println("2. Update StudentEntity");
-        System.out.println("3. Delete StudentEntity");
-        System.out.println("4. Search StudentEntity");
-        System.out.println("5. View all StudentEntity");
-        System.out.println("6. Return main menu");
-        System.out.println("Enter your choice: ");
-    }
 
     private void exit() {
         System.exit(0);
