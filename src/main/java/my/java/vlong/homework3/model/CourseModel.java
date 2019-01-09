@@ -1,8 +1,6 @@
-package my.java.vlong.homework3.controller;
+package my.java.vlong.homework3.model;
 
 import my.java.vlong.homework3.database.Database;
-import my.java.vlong.homework3.model.Course;
-import my.java.vlong.homework3.model.ICourse;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,17 +8,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseManagement implements ICourse {
+public class CourseModel implements ICourse {
     private PreparedStatement preparedStatement;
 
     @Override
-    public boolean addCourse(Course course) {
+    public boolean addCourse(CourseEntity courseEntity) {
         int count = 0;
-        if (course != null) {
+        if (courseEntity != null) {
             try {
-                String sql = "INSERT INTO course(name) VALUES (?)";
+                String sql = "INSERT INTO courseEntity(name) VALUES (?)";
                 preparedStatement = Database.getInstance().getConnection().prepareStatement(sql);
-                preparedStatement.setString(1, course.getName());
+                preparedStatement.setString(1, courseEntity.getName());
                 count = preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -37,14 +35,14 @@ public class CourseManagement implements ICourse {
     }
 
     @Override
-    public boolean updateCourse(Course course) {
+    public boolean updateCourse(CourseEntity courseEntity) {
         int count = 0;
-        if (course != null) {
+        if (courseEntity != null) {
             try {
-                String sql = "UPDATE course SET name = ? WHERE id = ?";
+                String sql = "UPDATE courseEntity SET name = ? WHERE id = ?";
                 preparedStatement = Database.getInstance().getConnection().prepareStatement(sql);
-                preparedStatement.setString(1, course.getName());
-                preparedStatement.setInt(2, course.getId());
+                preparedStatement.setString(1, courseEntity.getName());
+                preparedStatement.setInt(2, courseEntity.getId());
                 count = preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -62,7 +60,7 @@ public class CourseManagement implements ICourse {
     }
 
     @Override
-    public Course getCourse(int id) {
+    public CourseEntity getCourse(int id) {
         if (id > 0) {
             ResultSet resultSet = null;
             try {
@@ -71,7 +69,7 @@ public class CourseManagement implements ICourse {
                 preparedStatement.setInt(1, id);
                 resultSet = preparedStatement.executeQuery();
                 if (resultSet.next()) {
-                    return new Course(resultSet.getInt("id"), resultSet.getString("name"));
+                    return new CourseEntity(resultSet.getInt("id"), resultSet.getString("name"));
                 }
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -96,8 +94,8 @@ public class CourseManagement implements ICourse {
     }
 
     @Override
-    public List<Course> getCourses() {
-        List<Course> searchResults = new ArrayList<>();
+    public List<CourseEntity> getCourses() {
+        List<CourseEntity> searchResults = new ArrayList<>();
         ResultSet resultSet = null;
         try {
             String sql = "SELECT * FROM course ORDER BY id ASC";
@@ -107,7 +105,7 @@ public class CourseManagement implements ICourse {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
 
-                searchResults.add(new Course(id, name));
+                searchResults.add(new CourseEntity(id, name));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -133,12 +131,12 @@ public class CourseManagement implements ICourse {
     }
 
     @Override
-    public List<Course> search(String keyword) {
+    public List<CourseEntity> search(String keyword) {
         if (keyword.equals("")) {
             return null;
         }
 
-        List<Course> searchResults = new ArrayList<>();
+        List<CourseEntity> searchResults = new ArrayList<>();
         ResultSet resultSet = null;
         try {
             String sql = "SELECT * FROM course WHERE id LIKE ? OR name LIKE ? ORDER BY id ASC";
@@ -150,7 +148,7 @@ public class CourseManagement implements ICourse {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
 
-                searchResults.add(new Course(id, name));
+                searchResults.add(new CourseEntity(id, name));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -175,13 +173,13 @@ public class CourseManagement implements ICourse {
     }
 
     @Override
-    public boolean deleteCourse(Course course) {
+    public boolean deleteCourse(CourseEntity courseEntity) {
         int count = 0;
-        if (course != null) {
+        if (courseEntity != null) {
             try {
-                String sql = "DELETE FROM course WHERE id = ?";
+                String sql = "DELETE FROM courseEntity WHERE id = ?";
                 preparedStatement = Database.getInstance().getConnection().prepareStatement(sql);
-                preparedStatement.setInt(1, course.getId());
+                preparedStatement.setInt(1, courseEntity.getId());
                 count = preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
