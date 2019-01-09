@@ -14,13 +14,14 @@ import my.java.vlong.homework3_refactor.repository.ICourseRepository;
 
 public class CourseService {
 
-    private ICourseRepository courseRepository;
-    private CourseFactory courseFactory;
-    private StudentFactory studentFactory;
+    private final ICourseRepository courseRepository;
+    private final CourseFactory courseFactory;
+    private final StudentFactory studentFactory;
 
     public CourseService() {
         courseRepository = new CourseRepositoryImpl();
         courseFactory = new CourseFactory();
+        studentFactory = new StudentFactory();
     }
 
     public CourseDTO add(CourseDTO courseDTO) throws AddCourseException {
