@@ -65,6 +65,9 @@ public class StudentRepositoryImplDB implements IStudentRepository {
             preparedStatement.setInt(5, t.getId());
 
             count = preparedStatement.executeUpdate();
+            if (count > 0) {
+                return Optional.of(t);
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StudentRepositoryImplDB.class.getName()).log(Level.SEVERE, null, ex);
         }
