@@ -6,7 +6,7 @@ public class Student {
 
     private static int COUNTER = 0;
 
-    private final int id;
+    private int id;
     private String name;
     private Date dateOfBirth;
     private Gender gender;
@@ -46,6 +46,10 @@ public class Student {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

@@ -1,12 +1,13 @@
 package my.java.vlong.homework3_refactor.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
 
     private static int COUNTER = 0;
 
-    private final int id;
+    private int id;
     private String name;
     private List<Student> students;
 
@@ -23,11 +24,15 @@ public class Course {
     }
 
     public List<Student> getStudents() {
-        return students;
+        return students == null ? new ArrayList<>() : students;
     }
 
     public void setStudents(List<Student> students) {
         this.students = students;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

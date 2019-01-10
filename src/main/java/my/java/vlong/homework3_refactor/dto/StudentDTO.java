@@ -49,6 +49,11 @@ public class StudentDTO {
     public void setCourse(String course) {
         this.course = course;
     }
+
+    @Override
+    public String toString() {
+        return "StudentDTO{" + "id=" + id + ", name=" + name + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", course=" + course + '}';
+    }
     
     
 }

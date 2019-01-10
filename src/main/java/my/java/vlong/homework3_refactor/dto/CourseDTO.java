@@ -1,5 +1,6 @@
 package my.java.vlong.homework3_refactor.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDTO {
@@ -28,11 +29,15 @@ public class CourseDTO {
     }
 
     public List<StudentDTO> getStudentDTOs() {
-        return studentDTOs;
+        return studentDTOs != null ? studentDTOs : new ArrayList<>();
     }
 
     public void setStudentDTOs(List<StudentDTO> studentDTOs) {
         this.studentDTOs = studentDTOs;
     }
 
+    @Override
+    public String toString() {
+        return "CourseDTO{" + "id=" + id + ", name=" + name + ", studentDTOs=" + studentDTOs + '}';
+    }
 }

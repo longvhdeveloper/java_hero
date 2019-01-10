@@ -1,4 +1,4 @@
-package my.java.vlong.homework3_refactor.infrastructure;
+package my.java.vlong.homework3_refactor.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

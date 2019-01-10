@@ -1,16 +1,17 @@
 package my.java.vlong.homework3_refactor.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IRepository<T, K> {
 
-    T add(T t);
+    Optional<T> add(T t);
 
-    T update(T t);
+    Optional<T> update(T t);
 
-    boolean delete(T t);
+    boolean delete(Optional<T> t);
 
-    T findByOne(K k);
+    Optional<T> findByOne(K k);
 
     List<T> findAll();
 }
