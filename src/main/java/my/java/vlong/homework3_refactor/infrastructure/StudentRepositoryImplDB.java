@@ -76,7 +76,15 @@ public class StudentRepositoryImplDB implements IStudentRepository {
 
     @Override
     public boolean delete(Optional<Student> t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (!t.isPresent()) {
+            return false;
+        }
+
+        Student student = t.get();
+        int count = 0;
+        Connection connection = null;
+
+        return count > 0;
     }
 
     @Override
