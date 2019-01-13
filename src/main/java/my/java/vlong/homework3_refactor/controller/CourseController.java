@@ -8,11 +8,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import my.java.vlong.homework3_refactor.dto.CourseDTO;
 import my.java.vlong.homework3_refactor.dto.StudentDTO;
-import my.java.vlong.homework3_refactor.exception.AddCourseException;
-import my.java.vlong.homework3_refactor.exception.CourseNotFoundException;
-import my.java.vlong.homework3_refactor.exception.DeleteCourseException;
+import my.java.vlong.homework3_refactor.exception.AddedException;
+import my.java.vlong.homework3_refactor.exception.DataNotFoundException;
+import my.java.vlong.homework3_refactor.exception.DeletedException;
 import my.java.vlong.homework3_refactor.exception.ResultListEmptyException;
-import my.java.vlong.homework3_refactor.exception.UpdateCourseException;
+import my.java.vlong.homework3_refactor.exception.UpdatedException;
 import my.java.vlong.homework3_refactor.service.CourseService;
 
 public class CourseController {
@@ -31,7 +31,7 @@ public class CourseController {
             response.put("success", "1");
             response.put("message", "Add course success.");
             response.put("course", course);
-        } catch (AddCourseException ex) {
+        } catch (AddedException ex) {
             response.put("error", ex.getMessage());
         }
         return response;
@@ -43,7 +43,7 @@ public class CourseController {
             response.put("success", "1");
             response.put("message", "Updated course success.");
             response.put("course", course);
-        } catch (UpdateCourseException | CourseNotFoundException ex) {
+        } catch (UpdatedException | DataNotFoundException ex) {
             response.put("error", ex.getMessage());
         }
         return response;
@@ -54,7 +54,7 @@ public class CourseController {
             courseService.delete(id);
             response.put("success", "1");
             response.put("message", "Deleted course success.");
-        } catch (DeleteCourseException ex) {
+        } catch (DeletedException ex) {
             response.put("error", ex.getMessage());
         }
         return response;
@@ -86,7 +86,7 @@ public class CourseController {
         List<StudentDTO> students = new ArrayList<>();
         try {
             students = courseService.getStudentOfCourse(id);
-        } catch (CourseNotFoundException | ResultListEmptyException ex) {
+        } catch (DataNotFoundException | ResultListEmptyException ex) {
             response.put("error", ex.getMessage());
         }
         response.put("students", students);

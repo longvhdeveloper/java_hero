@@ -1,11 +1,12 @@
 package my.java.vlong.homework3_refactor.dto;
 
 public class StudentDTO {
+
     private String id;
     private String name;
     private String gender;
     private String dateOfBirth;
-    private String course;
+    private CourseDTO course;
 
     public StudentDTO() {
     }
@@ -42,11 +43,11 @@ public class StudentDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public String getCourse() {
+    public CourseDTO getCourse() {
         return course;
     }
 
-    public void setCourse(String course) {
+    public void setCourse(CourseDTO course) {
         this.course = course;
     }
 
@@ -54,6 +55,5 @@ public class StudentDTO {
     public String toString() {
         return "StudentDTO{" + "id=" + id + ", name=" + name + ", gender=" + gender + ", dateOfBirth=" + dateOfBirth + ", course=" + course + '}';
     }
-    
-    
+
 }

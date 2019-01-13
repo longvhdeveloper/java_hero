@@ -1,78 +1,77 @@
 package my.java.vlong.homework3_refactor.service;
 
-import my.java.vlong.homework3_refactor.exception.CourseNotFoundException;
-import my.java.vlong.homework3_refactor.exception.UpdateCourseException;
+import my.java.vlong.homework3_refactor.exception.DataNotFoundException;
+import my.java.vlong.homework3_refactor.exception.UpdatedException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import my.java.vlong.homework3_refactor.dto.CourseDTO;
 import my.java.vlong.homework3_refactor.dto.StudentDTO;
 import my.java.vlong.homework3_refactor.entity.Course;
 import my.java.vlong.homework3_refactor.entity.Student;
-import my.java.vlong.homework3_refactor.exception.AddCourseException;
-import my.java.vlong.homework3_refactor.exception.DeleteCourseException;
+import my.java.vlong.homework3_refactor.exception.AddedException;
+import my.java.vlong.homework3_refactor.exception.DeletedException;
 import my.java.vlong.homework3_refactor.exception.ResultListEmptyException;
 import my.java.vlong.homework3_refactor.factory.CourseFactory;
 import my.java.vlong.homework3_refactor.factory.StudentFactory;
 import my.java.vlong.homework3_refactor.infrastructure.CourseRepositoryImplDB;
+import my.java.vlong.homework3_refactor.mapping.CourseMapper;
+import my.java.vlong.homework3_refactor.mapping.StudentMapper;
 import my.java.vlong.homework3_refactor.repository.ICourseRepository;
 
 public class CourseService {
 
     private final ICourseRepository courseRepository;
-    private final CourseFactory courseFactory;
-    private final StudentFactory studentFactory;
 
     public CourseService() {
         courseRepository = new CourseRepositoryImplDB();
-        courseFactory = new CourseFactory();
-        studentFactory = new StudentFactory();
     }
 
-    public CourseDTO add(CourseDTO courseDTO) throws AddCourseException {
+    public CourseDTO add(CourseDTO courseDTO) throws AddedException {
         if (!isAddValid(courseDTO)) {
-            throw new AddCourseException("Can not add course");
+            throw new AddedException("Can not add course");
         }
-        Course course = courseFactory.toEntity(courseDTO);
+        Course course = CourseMapper.INSTANCE.toEntity(courseDTO);
 
         Optional<Course> courseOption = courseRepository.add(course);
 
         if (!courseOption.isPresent()) {
-            throw new AddCourseException("Can not add course");
+            throw new AddedException("Can not add course");
         }
 
-        return courseFactory.toDTO(courseOption.get());
+        return CourseMapper.INSTANCE.toDTO(courseOption.get());
     }
 
-    public CourseDTO update(int id, CourseDTO courseDTO) throws UpdateCourseException, CourseNotFoundException {
+    public CourseDTO update(int id, CourseDTO courseDTO) throws UpdatedException, DataNotFoundException {
         Optional<Course> courseOptional = courseRepository.findByOne(id);
 
         if (!courseOptional.isPresent()) {
-            throw new CourseNotFoundException("Course not found");
+            throw new DataNotFoundException("Course not found");
         }
 
         if (!isUpdateValid(courseDTO)) {
-            throw new UpdateCourseException("Can not update course");
+            throw new UpdatedException("Can not update course");
         }
-        
+
         Course courseUpdate = courseOptional.get();
-        courseUpdate.setName(courseDTO.getName());
+        Course data = CourseMapper.INSTANCE.toEntity(courseDTO);
+
+        courseUpdate.setName(data.getName());
 
         Optional<Course> courseOption = courseRepository.update(courseUpdate);
 
         if (!courseOption.isPresent()) {
-            throw new UpdateCourseException("Can not update course");
+            throw new UpdatedException("Can not update course");
         }
-        
-        return courseFactory.toDTO(courseUpdate);
+
+        return CourseMapper.INSTANCE.toDTO(courseOption.get());
     }
 
-    public boolean delete(int id) throws DeleteCourseException {
-        if (id == 0) {
-            throw new DeleteCourseException("Can not delete course");
+    public boolean delete(int id) throws DeletedException {
+        Optional<Course> courseOptional = courseRepository.findByOne(id);
+        if (!courseOptional.isPresent()) {
+            throw new DeletedException("Can not delete course");
         }
-        Optional<Course> course = courseRepository.findByOne(id);
-        return courseRepository.delete(course);
+        return courseRepository.delete(courseOptional);
     }
 
     public List<CourseDTO> findAll() throws ResultListEmptyException {
@@ -80,7 +79,8 @@ public class CourseService {
         if (courses.isEmpty()) {
             throw new ResultListEmptyException("Result list is empty");
         }
-        return courses.stream().map(courseFactory::toDTO).collect(Collectors.toList());
+        //return courses.stream().map(CourseMapper.INSTANCE::toDTO).collect(Collectors.toList());
+        return CourseMapper.INSTANCE.toDTOs(courses);
     }
 
     public List<CourseDTO> search(String keyWord) throws ResultListEmptyException {
@@ -88,17 +88,19 @@ public class CourseService {
         if (courses.isEmpty()) {
             throw new ResultListEmptyException("Result list is empty");
         }
-        return courses.stream().map(courseFactory::toDTO).collect(Collectors.toList());
+        //return courses.stream().map(CourseMapper.INSTANCE::toDTO).collect(Collectors.toList());
+        return CourseMapper.INSTANCE.toDTOs(courses);
     }
 
-    public List<StudentDTO> getStudentOfCourse(int id) throws CourseNotFoundException, ResultListEmptyException {
+    public List<StudentDTO> getStudentOfCourse(int id) throws DataNotFoundException, ResultListEmptyException {
         Optional<Course> course = courseRepository.findByOne(id);
         List<Student> students = courseRepository.getStudentsOfCourse(course);
         if (students.isEmpty()) {
             throw new ResultListEmptyException("Result list is empty");
         }
 
-        return students.stream().map(studentFactory::toDTO).collect(Collectors.toList());
+        //return students.stream().map(StudentMapper.INSTANCE::toDTO).collect(Collectors.toList());
+        return StudentMapper.INSTANCE.toDTOs(students);
     }
 
     private boolean isAddValid(CourseDTO courseDTO) {
