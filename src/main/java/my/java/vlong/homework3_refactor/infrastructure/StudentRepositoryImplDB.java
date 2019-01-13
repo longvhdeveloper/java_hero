@@ -110,6 +110,9 @@ public class StudentRepositoryImplDB implements IStudentRepository {
             preparedStatement.setInt(5, t.getId());
 
             count = preparedStatement.executeUpdate();
+            if (count > 0) {
+                return Optional.of(t);
+            }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(StudentRepositoryImplDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -121,6 +124,7 @@ public class StudentRepositoryImplDB implements IStudentRepository {
         if (!t.isPresent()) {
             return false;
         }
+
         Student student = t.get();
         Connection connection = null;
         int count = 0;
