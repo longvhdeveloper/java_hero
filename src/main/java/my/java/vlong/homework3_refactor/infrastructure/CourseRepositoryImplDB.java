@@ -20,6 +20,11 @@ public class CourseRepositoryImplDB implements ICourseRepository {
 
     @Override
     public List<Student> getStudentsOfCourse(Optional<Course> course) {
+        List<Student> students = new ArrayList<>();
+        if (!course.isPresent()) {
+            return students;
+        }
+        
         return null;
     }
 

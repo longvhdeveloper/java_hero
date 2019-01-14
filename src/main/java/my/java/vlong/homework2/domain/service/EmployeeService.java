@@ -31,7 +31,7 @@ public class EmployeeService {
 
     public void displayEmployees() throws EmployeeException {
         List<Employee> employeeList = iEmployeeRepository.getEmployees();
-        if (employeeList == null || employeeList.size() == 0) {
+        if (employeeList == null || employeeList.isEmpty()) {
             throw new EmployeeException("Employee list is empty or null");
         }
 
@@ -190,26 +190,26 @@ public class EmployeeService {
             optional.ifPresent(results::add);
         });
 
-        //        for (Gender gender : Gender.values()) {
-        //            Employee employeeMax = null;
-        //            for (Employee employee : employeeList) {
-        //                if (employee == null) {
-        //                    continue;
-        //                }
-        //
-        //                if (employee.getGender().equals(gender)) {
-        //
-        //                    if (employeeMax == null) {
-        //                        employeeMax = employee;
-        //                    } else {
-        //                        if (employeeMax.calculateSalary() < employee.calculateSalary()) {
-        //                            employeeMax = employee;
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //            results.add(employeeMax);
-        //        }
+//                for (Gender gender : Gender.values()) {
+//                    Employee employeeMax = null;
+//                    for (Employee employee : employeeList) {
+//                        if (employee == null) {
+//                            continue;
+//                        }
+//        
+//                        if (employee.getGender().equals(gender)) {
+//        
+//                            if (employeeMax == null) {
+//                                employeeMax = employee;
+//                            } else {
+//                                if (employeeMax.calculateSalary() < employee.calculateSalary()) {
+//                                    employeeMax = employee;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    results.add(employeeMax);
+//                }
 
         if (results.size() > 0) {
             results.forEach(this::displayEmployee);

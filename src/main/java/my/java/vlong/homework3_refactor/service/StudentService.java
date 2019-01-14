@@ -1,18 +1,24 @@
 package my.java.vlong.homework3_refactor.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 import my.java.vlong.homework3_refactor.dto.StudentDTO;
+import my.java.vlong.homework3_refactor.entity.Gender;
 import my.java.vlong.homework3_refactor.entity.Student;
 import my.java.vlong.homework3_refactor.exception.AddedException;
 import my.java.vlong.homework3_refactor.exception.DataNotFoundException;
 import my.java.vlong.homework3_refactor.exception.DeletedException;
+import my.java.vlong.homework3_refactor.exception.ResultListEmptyException;
 import my.java.vlong.homework3_refactor.exception.UpdatedException;
 import my.java.vlong.homework3_refactor.infrastructure.StudentRepositoryImplDB;
 import my.java.vlong.homework3_refactor.mapping.StudentMapper;
 import my.java.vlong.homework3_refactor.repository.IStudentRepository;
 
 public class StudentService {
+
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
 
     private final IStudentRepository studentRepository;
 
@@ -70,23 +76,85 @@ public class StudentService {
         if (!studentOptional.isPresent()) {
             throw new DeletedException("Can not delete student");
         }
-        
+
         return studentRepository.delete(studentOptional);
     }
 
-    public List<StudentDTO> findAll() {
-        return null;
+    public List<StudentDTO> findAll() throws ResultListEmptyException {
+        List<Student> students = studentRepository.findAll();
+        if (students.isEmpty()) {
+            throw new ResultListEmptyException("Result list is empty");
+        }
+        return StudentMapper.INSTANCE.toDTOs(students);
     }
 
-    public List<StudentDTO> search(String keyWord) {
-        return null;
+    public List<StudentDTO> search(String keyWord) throws ResultListEmptyException {
+        List<Student> students = studentRepository.findByNameContaining(keyWord);
+        if (students.isEmpty()) {
+            throw new ResultListEmptyException("Result list is empty");
+        }
+        return StudentMapper.INSTANCE.toDTOs(students);
     }
 
     private boolean isAddValid(StudentDTO studentDTO) {
+        if (studentDTO == null) {
+            return false;
+        }
+
+        if (studentDTO.getName().equals("")) {
+            return false;
+        }
+
+        if (studentDTO.getDateOfBirth().equals("")) {
+            return false;
+        }
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        try {
+            simpleDateFormat.parse(studentDTO.getDateOfBirth());
+        } catch (ParseException ex) {
+            return false;
+        }
+
+        if (Gender.valueOf(Integer.parseInt(studentDTO.getGender())) == null) {
+            return false;
+        }
+
+        if (studentDTO.getCourse().equals("")) {
+            return false;
+        }
+
         return true;
     }
 
     private boolean isUpdateValid(StudentDTO studentDTO) {
+        if (studentDTO == null) {
+            return false;
+        }
+
+        if (studentDTO.getName().equals("")) {
+            return false;
+        }
+
+        if (studentDTO.getDateOfBirth().equals("")) {
+            return false;
+        }
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT);
+        try {
+            simpleDateFormat.parse(studentDTO.getDateOfBirth());
+        } catch (ParseException ex) {
+            return false;
+        }
+
+        if (Gender.valueOf(Integer.parseInt(studentDTO.getGender())) == null) {
+            return false;
+        }
+
+        if (studentDTO.getCourse().equals("")) {
+            return false;
+        }
+
         return true;
     }
 }
